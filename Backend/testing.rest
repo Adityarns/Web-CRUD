@@ -1,0 +1,15 @@
+GET http://localhost:5000/users
+
+###
+GET http://localhost:5000/users/68a1b22c0856061fa6ca6503
+
+###
+POST  http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "name": "Sahira",
+    "email": "clairedelune@gmail.com",
+    "gender": "female"
+
+}
