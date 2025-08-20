@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
@@ -25,6 +26,14 @@ export default function UserList() {
       setLoading(false);
     }
   };
+  const deleteUser = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/users/${id}`);
+      getUsers();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   console.log("Current users state:", users);
   console.log("Users length:", users.length);
@@ -47,7 +56,7 @@ export default function UserList() {
         {users.length === 0 ? (
           <div>No users found</div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-3 ">
             {users.map((user, index) => (
               <div
                 key={user._id}
@@ -71,16 +80,28 @@ export default function UserList() {
                     </div>
                   </div>
                   <div className="flex space-x-2">
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
+                    <Link
+                      to={`edit/${user._id}`}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors"
+                    >
                       Edit
-                    </button>
-                    <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
+                    </Link>
+                    <button
+                      onClick={() => deleteUser(user._id)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors"
+                    >
                       Delete
                     </button>
                   </div>
                 </div>
               </div>
             ))}
+            <Link
+              to="add"
+              className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded text-sm font-medium"
+            >
+              Add User
+            </Link>
           </div>
         )}
       </div>
