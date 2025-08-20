@@ -24,15 +24,14 @@ export default function EditUser() {
   };
 
   useEffect(() => {
+    const getUserById = async () => {
+      const response = await axios.get(`http://localhost:5000/users/${id}`);
+      setName(response.data.name);
+      setEmail(response.data.email);
+      setGender(response.data.gender);
+    };
     getUserById();
-  }, []);
-
-  const getUserById = async () => {
-    const response = await axios.get(`http://localhost:5000/users/${id}`);
-    setName(response.data.name);
-    setEmail(response.data.email);
-    setGender(response.data.gender);
-  };
+  }, [id]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
